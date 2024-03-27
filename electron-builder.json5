@@ -1,0 +1,45 @@
+/**
+ * @see https://www.electron.build/configuration/configuration
+ */
+{
+  $schema: "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
+  appId: "YourAppID",
+  asar: true,
+  productName: "electron-demo",
+  directories: {
+    output: "release/${version}",
+    buildResources: "assets",
+  },
+  files: ["dist", "dist-electron"],
+  extraResources: ["./assets/**"],
+  mac: {
+    target: {
+      target: "dmg",
+      arch: ["arm64", "x64"],
+    },
+    artifactName: "${productName}-Mac-${version}-${arch}.${ext}",
+    entitlements: "assets/entitlements.mac.plist",
+    entitlementsInherit: "assets/entitlements.mac.plist",
+    gatekeeperAssess: false,
+  },
+  win: {
+    target: [
+      {
+        target: "nsis",
+        arch: ["x64"],
+      },
+    ],
+    artifactName: "${productName}-Windows-${version}-Setup.${ext}",
+  },
+  nsis: {
+    oneClick: false,
+    perMachine: false,
+    allowToChangeInstallationDirectory: true,
+    deleteAppDataOnUninstall: true,
+  },
+  linux: {
+    // target: ["AppImage"],
+    target: ["deb", "rpm"],
+    artifactName: "${productName}-Linux-${version}.${ext}",
+  },
+}
